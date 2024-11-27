@@ -6,27 +6,27 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.cardgame.databinding.ActivityDarkModeBinding
 import com.example.cardgame.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
 
-    lateinit var binding: ActivityMainBinding
+class DarkMode : AppCompatActivity() {
+
+    lateinit var binding: ActivityDarkModeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityDarkModeBinding.inflate(layoutInflater)
 
-        setContentView(binding.root)
-
-        binding.dayNight.setOnClickListener {
-            val intent = Intent(this,DarkMode::class.java)
+        binding.dayNightDark.setOnClickListener {
+            val intent = Intent(this,MainActivity::class.java)
 
             startActivity(intent)
         }
 
-        //setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_dark_mode)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)

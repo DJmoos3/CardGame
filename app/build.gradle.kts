@@ -4,6 +4,12 @@ plugins {
 }
 
 android {
+    buildFeatures {
+        viewBinding = true
+    }
+}
+
+android {
     namespace = "com.example.cardgame"
     compileSdk = 35
 
