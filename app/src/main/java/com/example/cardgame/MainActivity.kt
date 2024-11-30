@@ -8,16 +8,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.cardgame.databinding.ActivityMainBinding
-import java.util.Random
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
+    var idNr : Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+        var curNr = 0
+        var lastNr = 1
 
         binding = ActivityMainBinding.inflate(layoutInflater)
 
@@ -29,13 +31,44 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.higherBtn.setOnClickListener {
-            imageSelect(binding.cardFront)
+            if (idNr != 0) {
+                binding.cardBack.setImageResource(idNr)
+            }
+            if(binding.loseText.text != ""){
+                binding.loseText.text = ""
+                binding.cardBack.setImageResource(R.drawable.gray_back)
+                idNr = 0
+            }
+            if (lastNr != curNr){
+                lastNr = 0
+            }
+            curNr = imageSelect(binding.cardFront)
+            if (curNr < lastNr){
+                binding.loseText.text = "You lost"
+            }else {
+                lastNr = curNr
+            }
         }
         binding.lowerBtn.setOnClickListener {
-            imageSelect(binding.cardFront)
+            if (idNr != 0) {
+                binding.cardBack.setImageResource(idNr)
+            }
+            if(binding.loseText.text != ""){
+                binding.loseText.text = ""
+                binding.cardBack.setImageResource(R.drawable.gray_back)
+                idNr = 0
+            }
+            if (lastNr != curNr){
+                lastNr = 15
+            }
+            curNr = imageSelect(binding.cardFront)
+            if (curNr > lastNr){
+                binding.loseText.text = "You lost"
+            }else {
+                lastNr = curNr
+            }
         }
 
-        //setContentView(R.layout.activity_main)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -44,30 +77,21 @@ class MainActivity : AppCompatActivity() {
     }
     fun imageSelect(imageView: ImageView):Int {
         var random : Int
-        var idNr : Int
         var id : String
         random = kotlin.random.Random.nextInt(1,4)
         if(random == 1) {
-            random = kotlin.random.Random.nextInt(2,14)
-            id = "c$random"
-            idNr = this.resources.getIdentifier(id, "drawable", packageName)
-            imageView.setImageResource(idNr)
+            id = "c"
         } else if (random == 2){
-            random = kotlin.random.Random.nextInt(2,14)
-            id = "d$random"
-            idNr = this.resources.getIdentifier(id, "drawable", packageName)
-            imageView.setImageResource(idNr)
+            id = "d"
         }else if(random == 3){
-            random = kotlin.random.Random.nextInt(2,14)
-            id = "h$random"
-            idNr = this.resources.getIdentifier(id, "drawable", packageName)
-            imageView.setImageResource(idNr)
+            id = "h"
         }else{
-            random = kotlin.random.Random.nextInt(2,14)
-            id = "s$random"
-            idNr = this.resources.getIdentifier(id, "drawable", packageName)
-            imageView.setImageResource(idNr)
+            id = "s"
         }
+        random = kotlin.random.Random.nextInt(2,14)
+        id += random
+        idNr = resources.getIdentifier(id, "drawable", packageName)
+        imageView.setImageResource(idNr)
         return random
     }
 }
