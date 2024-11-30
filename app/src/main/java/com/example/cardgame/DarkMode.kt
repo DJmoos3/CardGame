@@ -18,11 +18,12 @@ class DarkMode : AppCompatActivity() {
 
         binding = ActivityDarkModeBinding.inflate(layoutInflater)
 
+        setContentView(binding.root)
+
         binding.dayNightDark.setOnClickListener {
             finish()
         }
 
-        setContentView(R.layout.activity_dark_mode)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
