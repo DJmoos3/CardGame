@@ -8,18 +8,22 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.cardgame.databinding.ActivityMainBinding
+import java.math.RoundingMode
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
-    var idNr : Int = 0
+    var idNr = 0
+    var percentValHigh = 0.0
+    var percentValLow = 0.0
+    var inARow = 0
+    var lastNr = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
         var curNr = 0
-        var lastNr = 1
 
         binding = ActivityMainBinding.inflate(layoutInflater)
 
@@ -35,18 +39,16 @@ class MainActivity : AppCompatActivity() {
                 binding.cardBack.setImageResource(idNr)
             }
             if(binding.loseText.text != ""){
-                binding.loseText.text = ""
-                binding.cardBack.setImageResource(R.drawable.gray_back)
-                idNr = 0
+                reset()
             }
             if (lastNr != curNr){
                 lastNr = 0
             }
             curNr = imageSelect(binding.cardFront)
             if (curNr < lastNr){
-                binding.loseText.text = "You lost"
+                gameLost()
             }else {
-                lastNr = curNr
+                roundProgression(curNr)
             }
         }
         binding.lowerBtn.setOnClickListener {
@@ -54,18 +56,16 @@ class MainActivity : AppCompatActivity() {
                 binding.cardBack.setImageResource(idNr)
             }
             if(binding.loseText.text != ""){
-                binding.loseText.text = ""
-                binding.cardBack.setImageResource(R.drawable.gray_back)
-                idNr = 0
+                reset()
             }
             if (lastNr != curNr){
                 lastNr = 15
             }
             curNr = imageSelect(binding.cardFront)
             if (curNr > lastNr){
-                binding.loseText.text = "You lost"
+                gameLost()
             }else {
-                lastNr = curNr
+                roundProgression(curNr)
             }
         }
 
@@ -75,6 +75,8 @@ class MainActivity : AppCompatActivity() {
             insets
         }
     }
+
+
     fun imageSelect(imageView: ImageView):Int {
         var random : Int
         var id : String
@@ -88,10 +90,52 @@ class MainActivity : AppCompatActivity() {
         }else{
             id = "s"
         }
-        random = kotlin.random.Random.nextInt(2,14)
+        random = kotlin.random.Random.nextInt(2,15)
         id += random
         idNr = resources.getIdentifier(id, "drawable", packageName)
         imageView.setImageResource(idNr)
         return random
+    }
+
+
+    fun chanceCounter(nr: Int){
+        var corNr = nr - 1
+        percentValHigh = 13 - corNr.toDouble()
+        percentValHigh /= 13
+        percentValHigh *= 100
+        if(corNr == 13){
+            percentValLow = 0.0
+        }
+        var percentAmount = percentValHigh.toBigDecimal().setScale(1, RoundingMode.UP)
+        binding.higherChance.text = "$percentAmount%"
+        percentValLow = corNr.toDouble()/13
+        percentValLow *= 100
+        if(corNr == 1){
+            percentValLow = 0.0
+        }
+        percentAmount = percentValLow.toBigDecimal().setScale(1, RoundingMode.UP)
+        binding.lowerChance.text = "$percentAmount%"
+
+    }
+
+    fun reset() {
+        binding.loseText.text = ""
+        binding.inARowText.text = ""
+        binding.cardBack.setImageResource(R.drawable.gray_back)
+        idNr = 0
+        inARow = 0
+    }
+
+    fun gameLost(){
+        binding.loseText.text = "You lost"
+        binding.lowerChance.text = ""
+        binding.higherChance.text = ""
+    }
+
+    fun roundProgression(curNr: Int ){
+        chanceCounter(curNr)
+        lastNr = curNr
+        inARow++
+        binding.inARowText.text = "$inARow in a row"
     }
 }
