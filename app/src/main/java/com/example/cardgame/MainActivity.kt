@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isInvisible
 import com.example.cardgame.databinding.ActivityMainBinding
 import java.math.RoundingMode
 
@@ -18,12 +19,11 @@ class MainActivity : AppCompatActivity() {
     var percentValLow = 0.0
     var inARow = 0
     var lastNr = 1
+    var curNr = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-
-        var curNr = 0
 
         binding = ActivityMainBinding.inflate(layoutInflater)
 
@@ -34,39 +34,16 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        binding.replay.setOnClickListener {
+            reset()
+            binding.replay.isInvisible = true
+            binding.replay.isEnabled = false
+        }
         binding.higherBtn.setOnClickListener {
-            if (idNr != 0) {
-                binding.cardBack.setImageResource(idNr)
-            }
-            if(binding.loseText.text != ""){
-                reset()
-            }
-            if (lastNr != curNr){
-                lastNr = 0
-            }
-            curNr = imageSelect(binding.cardFront)
-            if (curNr < lastNr){
-                gameLost()
-            }else {
-                roundProgression(curNr)
-            }
+            onClick("high")
         }
         binding.lowerBtn.setOnClickListener {
-            if (idNr != 0) {
-                binding.cardBack.setImageResource(idNr)
-            }
-            if(binding.loseText.text != ""){
-                reset()
-            }
-            if (lastNr != curNr){
-                lastNr = 15
-            }
-            curNr = imageSelect(binding.cardFront)
-            if (curNr > lastNr){
-                gameLost()
-            }else {
-                roundProgression(curNr)
-            }
+            onClick("low")
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -121,15 +98,22 @@ class MainActivity : AppCompatActivity() {
     fun reset() {
         binding.loseText.text = ""
         binding.inARowText.text = ""
+        binding.cardFront.setImageDrawable(null)
         binding.cardBack.setImageResource(R.drawable.gray_back)
         idNr = 0
         inARow = 0
+        binding.lowerBtn.isEnabled = true
+        binding.higherBtn.isEnabled = true
     }
 
     fun gameLost(){
         binding.loseText.text = "You lost"
         binding.lowerChance.text = ""
         binding.higherChance.text = ""
+        binding.replay.isInvisible = false
+        binding.replay.isEnabled = true
+        binding.lowerBtn.isEnabled = false
+        binding.higherBtn.isEnabled = false
     }
 
     fun roundProgression(curNr: Int ){
@@ -137,5 +121,25 @@ class MainActivity : AppCompatActivity() {
         lastNr = curNr
         inARow++
         binding.inARowText.text = "$inARow in a row"
+    }
+
+    fun onClick(lowHigh : String){
+        if (idNr != 0) {
+            binding.cardBack.setImageResource(idNr)
+        }
+        if (lastNr != curNr && lowHigh == "low"){
+            lastNr = 15
+        }
+        if (lastNr != curNr && lowHigh == "high"){
+            lastNr = 0
+        }
+        curNr = imageSelect(binding.cardFront)
+        if (curNr > lastNr && lowHigh == "low"){
+            gameLost()
+        }else if (curNr < lastNr && lowHigh == "high") {
+            gameLost()
+        }else {
+            roundProgression(curNr)
+        }
     }
 }
