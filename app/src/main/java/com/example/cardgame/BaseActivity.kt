@@ -1,0 +1,152 @@
+package com.example.cardgame
+
+import android.media.Image
+import android.os.Bundle
+import android.os.PersistableBundle
+import android.view.View
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isInvisible
+import androidx.viewbinding.ViewBinding
+import java.math.RoundingMode
+
+abstract class BaseActivity <VB: ViewBinding> : AppCompatActivity() {
+
+    lateinit var binding : VB
+
+    lateinit var higherChance : TextView
+    lateinit var lowerChance : TextView
+    lateinit var loseText : TextView
+    lateinit var inARowText : TextView
+
+    lateinit var cardFront : ImageView
+    lateinit var cardBack : ImageView
+
+    lateinit var lowerBtn : Button
+    lateinit var higherBtn : Button
+    lateinit var replay : Button
+
+    var idNr = 0
+    var percentValHigh = 0.0
+    var percentValLow = 0.0
+    var inARow = 0
+    var lastNr = 1
+    var curNr = 0
+
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = inflateBinding()
+        setContentView(binding.root)
+
+    }
+
+    abstract fun inflateBinding():VB
+
+    fun initiator(higherChanceInit: TextView, lowerChanceInit: TextView, loseTextInit: TextView,
+                  inARowTextInit : TextView, cardFrontInit : ImageView, cardBackInit : ImageView,
+                  lowerBtnInit : Button, higherBtnInit : Button, replayInit : Button) {
+        higherChance = higherChanceInit
+        lowerChance = lowerChanceInit
+        loseText = loseTextInit
+        inARowText = inARowTextInit
+        cardFront = cardFrontInit
+        cardBack = cardBackInit
+        lowerBtn = lowerBtnInit
+        higherBtn = higherBtnInit
+        replay = replayInit
+    }
+
+
+    fun imageSelect(imageView: ImageView):Int {
+        var random : Int
+        var id : String
+        random = kotlin.random.Random.nextInt(1,4)
+        if(random == 1) {
+            id = "c"
+        } else if (random == 2){
+            id = "d"
+        }else if(random == 3){
+            id = "h"
+        }else{
+            id = "s"
+        }
+        random = kotlin.random.Random.nextInt(2,15)
+        id += random
+        idNr = resources.getIdentifier(id, "drawable", packageName)
+        imageView.setImageResource(idNr)
+        return random
+    }
+
+    fun chanceCounter(nr: Int){
+        var corNr = nr - 1
+        percentValHigh = 13 - corNr.toDouble()
+        percentValHigh /= 13
+        percentValHigh *= 100
+        if(corNr == 13){
+            percentValLow = 0.0
+        }
+        var percentAmount = percentValHigh.toBigDecimal().setScale(1, RoundingMode.UP)
+        higherChance.text = "$percentAmount%"
+        percentValLow = corNr.toDouble()/13
+        percentValLow *= 100
+        if(corNr == 1){
+            percentValLow = 0.0
+        }
+        percentAmount = percentValLow.toBigDecimal().setScale(1, RoundingMode.UP)
+        lowerChance.text = "$percentAmount%"
+
+    }
+
+    fun reset() {
+        loseText.text = ""
+        inARowText.text = ""
+        cardFront.setImageDrawable(null)
+        cardBack.setImageResource(R.drawable.gray_back)
+        idNr = 0
+        inARow = 0
+        lowerBtn.isEnabled = true
+        higherBtn.isEnabled = true
+    }
+
+    fun gameLost(){
+        loseText.text = "You lost"
+        lowerChance.text = ""
+        higherChance.text = ""
+        replay.isInvisible = false
+        replay.isEnabled = true
+        lowerBtn.isEnabled = false
+        higherBtn.isEnabled = false
+    }
+
+    fun roundProgression(curNr: Int ){
+        chanceCounter(curNr)
+        lastNr = curNr
+        inARow++
+        inARowText.text = "$inARow in a row"
+    }
+
+    fun onClick(lowHigh : String){
+        if (idNr != 0) {
+            cardBack.setImageResource(idNr)
+        }
+        if (lastNr != curNr && lowHigh == "low"){
+            lastNr = 15
+        }
+        if (lastNr != curNr && lowHigh == "high"){
+            lastNr = 0
+        }
+        curNr = imageSelect(cardFront)
+        if (curNr > lastNr && lowHigh == "low"){
+            gameLost()
+        }else if (curNr < lastNr && lowHigh == "high") {
+            gameLost()
+        }else {
+            roundProgression(curNr)
+        }
+    }
+
+}

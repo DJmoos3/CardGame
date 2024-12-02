@@ -38,7 +38,7 @@
         app:layout_constraintVertical_bias="0.04000002" />
 
     <Switch
-        android:id="@+id/dayNightDark"
+        android:id="@+id/dayNight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:checked="true"
@@ -55,7 +55,7 @@
         app:layout_constraintVertical_bias="0.022" />
 
     <ImageView
-        android:id="@+id/cardBackDark"
+        android:id="@+id/cardBack"
         android:layout_width="196dp"
         android:layout_height="309dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -68,7 +68,7 @@
 
 
     <ImageView
-        android:id="@+id/cardFrontDark"
+        android:id="@+id/cardFront"
         android:layout_width="194dp"
         android:layout_height="308dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -79,7 +79,7 @@
         app:layout_constraintVertical_bias="0.432" />
 
     <Button
-        android:id="@+id/lowerBtnDark"
+        android:id="@+id/lowerBtn"
         android:layout_width="206dp"
         android:layout_height="100dp"
         android:backgroundTint="#737373"
@@ -94,7 +94,7 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <Button
-        android:id="@+id/higherBtnDark"
+        android:id="@+id/higherBtn"
         android:layout_width="206dp"
         android:layout_height="100dp"
         android:backgroundTint="#D50505"
@@ -109,33 +109,33 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <TextView
-        android:id="@+id/lowerChanceDark"
+        android:id="@+id/lowerChance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
         android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/lowerBtnDark"
+        app:layout_constraintBottom_toTopOf="@+id/lowerBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.237"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardFrontDark"
+        app:layout_constraintTop_toBottomOf="@+id/cardFront"
         app:layout_constraintVertical_bias="0.791" />
 
     <TextView
-        android:id="@+id/higherChanceDark"
+        android:id="@+id/higherChance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
         android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/higherBtnDark"
+        app:layout_constraintBottom_toTopOf="@+id/higherBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.764"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardBackDark"
+        app:layout_constraintTop_toBottomOf="@+id/cardBack"
         app:layout_constraintVertical_bias="0.791" />
 
     <TextView
-        android:id="@+id/loseTextDark"
+        android:id="@+id/loseText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
@@ -147,7 +147,7 @@
         app:layout_constraintVertical_bias="0.179" />
 
     <TextView
-        android:id="@+id/inARowTextDark"
+        android:id="@+id/inARowText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
@@ -159,7 +159,7 @@
         app:layout_constraintVertical_bias="0.217" />
 
     <Button
-        android:id="@+id/replayDark"
+        android:id="@+id/replay"
         android:layout_width="166dp"
         android:layout_height="101dp"
         android:backgroundTint="#2EB600"

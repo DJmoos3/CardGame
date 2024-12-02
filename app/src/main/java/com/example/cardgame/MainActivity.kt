@@ -11,23 +11,26 @@ import androidx.core.view.isInvisible
 import com.example.cardgame.databinding.ActivityMainBinding
 import java.math.RoundingMode
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity<ActivityMainBinding>() {
 
-    lateinit var binding: ActivityMainBinding
-    var idNr = 0
+    //lateinit var binding: ActivityMainBinding
+    /*var idNr = 0
     var percentValHigh = 0.0
     var percentValLow = 0.0
     var inARow = 0
     var lastNr = 1
-    var curNr = 0
+    var curNr = 0*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        //binding = ActivityMainBinding.inflate(layoutInflater)
 
-        setContentView(binding.root)
+        //setContentView(binding.root)
+
+        initiator(binding.higherChance,binding.lowerChance,binding.loseText,binding.inARowText,
+            binding.cardFront,binding.cardBack,binding.lowerBtn,binding.higherBtn,binding.replay)
 
         binding.dayNight.setOnClickListener {
             val intent = Intent(this,DarkMode::class.java)
@@ -53,8 +56,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun inflateBinding() = ActivityMainBinding.inflate(layoutInflater)
 
-    fun imageSelect(imageView: ImageView):Int {
+
+    /*fun imageSelect(imageView: ImageView):Int {
         var random : Int
         var id : String
         random = kotlin.random.Random.nextInt(1,4)
@@ -72,10 +77,10 @@ class MainActivity : AppCompatActivity() {
         idNr = resources.getIdentifier(id, "drawable", packageName)
         imageView.setImageResource(idNr)
         return random
-    }
+    }*/
 
 
-    fun chanceCounter(nr: Int){
+    /*fun chanceCounter(nr: Int){
         var corNr = nr - 1
         percentValHigh = 13 - corNr.toDouble()
         percentValHigh /= 13
@@ -93,9 +98,9 @@ class MainActivity : AppCompatActivity() {
         percentAmount = percentValLow.toBigDecimal().setScale(1, RoundingMode.UP)
         binding.lowerChance.text = "$percentAmount%"
 
-    }
+    }*/
 
-    fun reset() {
+    /*fun reset() {
         binding.loseText.text = ""
         binding.inARowText.text = ""
         binding.cardFront.setImageDrawable(null)
@@ -117,7 +122,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun roundProgression(curNr: Int ){
-        chanceCounter(curNr)
+        chanceCounter(curNr, binding.higherChance, binding.lowerChance)
         lastNr = curNr
         inARow++
         binding.inARowText.text = "$inARow in a row"
@@ -141,5 +146,5 @@ class MainActivity : AppCompatActivity() {
         }else {
             roundProgression(curNr)
         }
-    }
+    }*/
 }
