@@ -31,15 +31,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             binding.cardFront,binding.cardBack,binding.lowerBtn,binding.higherBtn,binding.replay)*/
 
         binding.dayNight.setOnClickListener {
-            if(!darkMode) {
-                binding.main.setBackgroundColor(resources.getColor(R.color.black))
-                binding.frameLayout.setBackgroundColor(Color.parseColor("#8E8E8E"))
-                binding.dayNight.text = "\uD83C\uDF11"
+            if (checkIfDark(darkMode, binding.main, binding.frameLayout, binding.dayNight)){
                 darkMode = true
             }else{
-                binding.main.setBackgroundColor(resources.getColor(R.color.white))
-                binding.frameLayout.setBackgroundColor(Color.parseColor("#ececec"))
-                binding.dayNight.text = "\u2600"
                 darkMode = false
             }
         }

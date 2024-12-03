@@ -1,15 +1,19 @@
 package com.example.cardgame
 
+import android.graphics.Color
 import android.media.Image
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.view.View
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.Switch
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isInvisible
 import androidx.viewbinding.ViewBinding
+import com.example.cardgame.databinding.ActivityMainBinding
 import java.math.RoundingMode
 
 abstract class BaseActivity <VB: ViewBinding> : AppCompatActivity() {
@@ -45,6 +49,24 @@ abstract class BaseActivity <VB: ViewBinding> : AppCompatActivity() {
     }
 
     abstract fun inflateBinding():VB
+
+    fun checkIfDark(darkMode : Boolean, main : View,
+                    frameLayout: FrameLayout, dayNight : Switch): Boolean{
+        if(!darkMode) {
+            main.setBackgroundColor(resources.getColor(R.color.black))
+            frameLayout.setBackgroundColor(Color.parseColor("#8E8E8E"))
+            dayNight.text = "\uD83C\uDF11"
+            dayNight.isChecked = true
+            return true
+        }else{
+            main.setBackgroundColor(resources.getColor(R.color.white))
+            frameLayout.setBackgroundColor(Color.parseColor("#ececec"))
+            dayNight.text = "\u2600"
+            dayNight.isChecked = false
+            return false
+        }
+    }
+
 
     /*fun initiator(higherChanceInit: TextView, lowerChanceInit: TextView, loseTextInit: TextView,
                   inARowTextInit : TextView, cardFrontInit : ImageView, cardBackInit : ImageView,

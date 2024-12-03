@@ -24,13 +24,19 @@ class CardGame : BaseActivity<ActivityCardGameBinding>(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        var darkMode = checkIfDark(intent.getBooleanExtra("boolean", false))
+        var darkMode = checkIfDark(intent.getBooleanExtra("boolean", false),
+            binding.main, binding.frameLayout,
+            binding.dayNight)
 
         /*var frontIdNr = intent.getIntExtra("front", R.drawable.gray_back)
         var backIdNr = intent.getIntExtra("back", R.drawable.gray_back)*/
 
         binding.dayNight.setOnClickListener {
-            darkMode = checkIfDark(darkMode)
+            if (checkIfDark(darkMode, binding.main, binding.frameLayout, binding.dayNight)){
+                darkMode = true
+            }else{
+                darkMode = false
+            }
         }
         /*initiator(binding.higherChance,binding.lowerChance,binding.loseText,binding.inARowText,
             binding.cardFront,binding.cardBack,binding.lowerBtn, binding.higherBtn,binding.replay)
@@ -59,20 +65,6 @@ class CardGame : BaseActivity<ActivityCardGameBinding>(){
 
     override fun inflateBinding(): ActivityCardGameBinding =
         ActivityCardGameBinding.inflate(layoutInflater)
-
-    fun checkIfDark(darkMode : Boolean): Boolean{
-        if(darkMode) {
-            binding.main.setBackgroundColor(resources.getColor(R.color.black))
-            binding.frameLayout.setBackgroundColor(Color.parseColor("#8E8E8E"))
-            binding.dayNight.text = "\uD83C\uDF11"
-            return true
-        }else{
-            binding.main.setBackgroundColor(resources.getColor(R.color.white))
-            binding.frameLayout.setBackgroundColor(Color.parseColor("#ececec"))
-            binding.dayNight.text = "\u2600"
-            return false
-        }
-    }
 
     fun imageSelect(imageView: ImageView):Int {
         var random : Int
