@@ -16,7 +16,7 @@ abstract class BaseActivity <VB: ViewBinding> : AppCompatActivity() {
 
     lateinit var binding : VB
 
-    lateinit var higherChance : TextView
+    /*lateinit var higherChance : TextView
     lateinit var lowerChance : TextView
     lateinit var loseText : TextView
     lateinit var inARowText : TextView
@@ -36,7 +36,7 @@ abstract class BaseActivity <VB: ViewBinding> : AppCompatActivity() {
     var curNr = 0
 
 
-
+*/
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = inflateBinding()
@@ -46,7 +46,7 @@ abstract class BaseActivity <VB: ViewBinding> : AppCompatActivity() {
 
     abstract fun inflateBinding():VB
 
-    fun initiator(higherChanceInit: TextView, lowerChanceInit: TextView, loseTextInit: TextView,
+    /*fun initiator(higherChanceInit: TextView, lowerChanceInit: TextView, loseTextInit: TextView,
                   inARowTextInit : TextView, cardFrontInit : ImageView, cardBackInit : ImageView,
                   lowerBtnInit : Button, higherBtnInit : Button, replayInit : Button) {
         higherChance = higherChanceInit
@@ -60,18 +60,31 @@ abstract class BaseActivity <VB: ViewBinding> : AppCompatActivity() {
         replay = replayInit
     }
 
+    fun setVariables(higherChanceTxt : String, lowerChanceTxt : String, loseTextTxt: String,
+                     inARowTextTxt : String, cardFrontIdNr : Int, cardBackIdNr : Int,
+                     lowerBtnBool : Boolean, higherBtnBool : Boolean, replayBool : Boolean) {
+        higherChance.text = higherChanceTxt
+        lowerChance.text = lowerChanceTxt
+        loseText.text = loseTextTxt
+        inARowText.text = inARowTextTxt
+        cardFront.setImageResource(cardFrontIdNr)
+        cardBack.setImageResource(cardBackIdNr)
+        lowerBtn.isEnabled = lowerBtnBool
+        higherBtn.isEnabled = higherBtnBool
+        replay.isEnabled = replayBool
+        replay.isInvisible != replayBool
+    }
 
-    fun imageSelect(imageView: ImageView):Int {
-        var random : Int
+    private fun imageSelect(imageView: ImageView):Int {
+        var random = kotlin.random.Random.nextInt(1,4)
         var id : String
-        random = kotlin.random.Random.nextInt(1,4)
         if(random == 1) {
             id = "c"
-        } else if (random == 2){
+        }else if(random == 2) {
             id = "d"
-        }else if(random == 3){
+        }else if(random == 3) {
             id = "h"
-        }else{
+        }else {
             id = "s"
         }
         random = kotlin.random.Random.nextInt(2,15)
@@ -81,7 +94,7 @@ abstract class BaseActivity <VB: ViewBinding> : AppCompatActivity() {
         return random
     }
 
-    fun chanceCounter(nr: Int){
+    private fun chanceCounter(nr: Int){
         var corNr = nr - 1
         percentValHigh = 13 - corNr.toDouble()
         percentValHigh /= 13
@@ -112,7 +125,7 @@ abstract class BaseActivity <VB: ViewBinding> : AppCompatActivity() {
         higherBtn.isEnabled = true
     }
 
-    fun gameLost(){
+    private fun gameLost(){
         loseText.text = "You lost"
         lowerChance.text = ""
         higherChance.text = ""
@@ -122,7 +135,7 @@ abstract class BaseActivity <VB: ViewBinding> : AppCompatActivity() {
         higherBtn.isEnabled = false
     }
 
-    fun roundProgression(curNr: Int ){
+    private fun roundProgression(curNr: Int ){
         chanceCounter(curNr)
         lastNr = curNr
         inARow++
@@ -148,5 +161,12 @@ abstract class BaseActivity <VB: ViewBinding> : AppCompatActivity() {
             roundProgression(curNr)
         }
     }
+    fun getIdNr(frontOrBack : String):Int{
+        if (frontOrBack == "front"){
+            return idNr
+        }else{
+            return lastNr
+        }
+    }*/
 
 }
