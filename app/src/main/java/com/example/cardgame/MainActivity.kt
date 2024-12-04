@@ -14,27 +14,20 @@ import java.math.RoundingMode
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
 
-    /*var idNr = 0
-    var percentValHigh = 0.0
-    var percentValLow = 0.0
-    var inARow = 0
-    var lastNr = 1
-    var curNr = 0*/
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        var darkMode = false
 
-
-        /*initiator(binding.higherChance,binding.lowerChance,binding.loseText,binding.inARowText,
-            binding.cardFront,binding.cardBack,binding.lowerBtn,binding.higherBtn,binding.replay)*/
+        var darkMode = intent.getBooleanExtra("boolean", false)
+        checkIfDark(darkMode, binding.main, binding.frameLayout, binding.dayNight)
 
         binding.dayNight.setOnClickListener {
-            if (checkIfDark(darkMode, binding.main, binding.frameLayout, binding.dayNight)){
+            if (!darkMode){
                 darkMode = true
+                checkIfDark(darkMode, binding.main, binding.frameLayout, binding.dayNight)
             }else{
                 darkMode = false
+                checkIfDark(darkMode, binding.main, binding.frameLayout, binding.dayNight)
             }
         }
 
@@ -42,6 +35,28 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             val intent = Intent(this,CardGame::class.java)
             intent.putExtra("boolean", darkMode)
             startActivity(intent)
+        }
+        binding.highestScore.setOnClickListener {
+            val score = intent.getIntExtra("highscore", 0)
+            binding.highScoreText.isInvisible = false
+            binding.scoreText.isInvisible = false
+            binding.scoreText.text = "$score"
+            binding.backBtn.isEnabled = true
+            binding.backBtn.isInvisible = false
+            binding.highestScore.isEnabled = false
+            binding.highestScore.isInvisible = true
+            binding.playButton.isEnabled = false
+            binding.playButton.isInvisible = true
+        }
+        binding.backBtn.setOnClickListener {
+            binding.highScoreText.isInvisible = true
+            binding.scoreText.isInvisible = true
+            binding.backBtn.isEnabled = false
+            binding.backBtn.isInvisible = true
+            binding.highestScore.isEnabled = true
+            binding.highestScore.isInvisible = false
+            binding.playButton.isEnabled = true
+            binding.playButton.isInvisible = false
         }
 
 

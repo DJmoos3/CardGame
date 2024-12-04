@@ -1,10 +1,10 @@
 package com.example.cardgame
 
-import android.graphics.Color
+//import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
-//import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isInvisible
@@ -20,22 +20,26 @@ class CardGame : BaseActivity<ActivityCardGameBinding>(){
     var inARow = 0
     var lastNr = 1
     var curNr = 0
+    var highestScore = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        var darkMode = checkIfDark(intent.getBooleanExtra("boolean", false),
-            binding.main, binding.frameLayout,
-            binding.dayNight)
+
+
+        var darkMode = intent.getBooleanExtra("boolean", false)
+        checkIfDark(darkMode, binding.main, binding.frameLayout, binding.dayNight)
 
         /*var frontIdNr = intent.getIntExtra("front", R.drawable.gray_back)
         var backIdNr = intent.getIntExtra("back", R.drawable.gray_back)*/
 
         binding.dayNight.setOnClickListener {
-            if (checkIfDark(darkMode, binding.main, binding.frameLayout, binding.dayNight)){
+            if (!darkMode){
                 darkMode = true
+                checkIfDark(darkMode, binding.main, binding.frameLayout, binding.dayNight)
             }else{
                 darkMode = false
+                checkIfDark(darkMode, binding.main, binding.frameLayout, binding.dayNight)
             }
         }
         /*initiator(binding.higherChance,binding.lowerChance,binding.loseText,binding.inARowText,
@@ -48,12 +52,21 @@ class CardGame : BaseActivity<ActivityCardGameBinding>(){
             reset()
             binding.replay.isInvisible = true
             binding.replay.isEnabled = false
+            binding.quitBtn.isInvisible = true
+            binding.quitBtn.isEnabled = false
         }
         binding.higherBtn.setOnClickListener {
             onClick("high")
         }
         binding.lowerBtn.setOnClickListener {
             onClick("low")
+        }
+        binding.quitBtn.setOnClickListener {
+            val intent = Intent(applicationContext, MainActivity::class.java)
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            intent.putExtra("highscore", highestScore)
+            intent.putExtra("boolean", darkMode)
+            startActivity(intent)
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -88,17 +101,11 @@ class CardGame : BaseActivity<ActivityCardGameBinding>(){
 
 
     fun chanceCounter(nr: Int){
-        var corNr = nr - 1
-        percentValHigh = (13 - corNr.toDouble())/12*100
-        if(corNr == 13){
-            percentValLow = 0.0
-        }
+        var corNr = nr - 2
+        percentValHigh = ((12 - corNr.toDouble())/12)*100
         var percentAmount = percentValHigh.toBigDecimal().setScale(1, RoundingMode.UP)
         binding.higherChance.text = "$percentAmount%"
-        percentValLow = corNr.toDouble()/12*100
-        if(corNr == 1){
-            percentValLow = 0.0
-        }
+        percentValLow = (corNr.toDouble()/12)*100
         percentAmount = percentValLow.toBigDecimal().setScale(1, RoundingMode.UP)
         binding.lowerChance.text = "$percentAmount%"
 
@@ -121,8 +128,13 @@ class CardGame : BaseActivity<ActivityCardGameBinding>(){
         binding.higherChance.text = ""
         binding.replay.isInvisible = false
         binding.replay.isEnabled = true
+        binding.quitBtn.isInvisible = false
+        binding.quitBtn.isEnabled = true
         binding.lowerBtn.isEnabled = false
         binding.higherBtn.isEnabled = false
+        if (highestScore < inARow){
+            highestScore = inARow
+        }
     }
 
     fun roundProgression(curNr: Int ){

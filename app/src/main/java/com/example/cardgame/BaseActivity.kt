@@ -51,19 +51,17 @@ abstract class BaseActivity <VB: ViewBinding> : AppCompatActivity() {
     abstract fun inflateBinding():VB
 
     fun checkIfDark(darkMode : Boolean, main : View,
-                    frameLayout: FrameLayout, dayNight : Switch): Boolean{
-        if(!darkMode) {
+                    frameLayout: FrameLayout, dayNight : Switch){
+        if(darkMode) {
             main.setBackgroundColor(resources.getColor(R.color.black))
             frameLayout.setBackgroundColor(Color.parseColor("#8E8E8E"))
             dayNight.text = "\uD83C\uDF11"
             dayNight.isChecked = true
-            return true
         }else{
             main.setBackgroundColor(resources.getColor(R.color.white))
             frameLayout.setBackgroundColor(Color.parseColor("#ececec"))
             dayNight.text = "\u2600"
             dayNight.isChecked = false
-            return false
         }
     }
 
