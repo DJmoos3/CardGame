@@ -173,7 +173,7 @@
         android:id="@+id/quitBtn"
         android:layout_width="122dp"
         android:layout_height="59dp"
-        android:backgroundTint="#2EB600"
+        android:backgroundTint="#9D0323"
         android:enabled="false"
         android:text="Quit"
         android:textColorLink="#FFFFFF"
