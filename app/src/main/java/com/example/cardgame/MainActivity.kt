@@ -1,22 +1,20 @@
 package com.example.cardgame
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
-import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isInvisible
 import com.example.cardgame.databinding.ActivityMainBinding
-import java.math.RoundingMode
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        var score = intent.getIntExtra("highscore", 0)
 
         var darkMode = intent.getBooleanExtra("boolean", false)
         checkIfDark(darkMode, binding.main, binding.frameLayout, binding.dayNight)
@@ -34,10 +32,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         binding.playButton.setOnClickListener {
             val intent = Intent(this,CardGame::class.java)
             intent.putExtra("boolean", darkMode)
+            intent.putExtra("highestscore", score)
             startActivity(intent)
         }
         binding.highestScore.setOnClickListener {
-            val score = intent.getIntExtra("highscore", 0)
             binding.highScoreText.isInvisible = false
             binding.scoreText.isInvisible = false
             binding.scoreText.text = "$score"

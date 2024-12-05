@@ -1,6 +1,5 @@
 package com.example.cardgame
 
-//import androidx.appcompat.app.AppCompatActivity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
@@ -25,6 +24,8 @@ class CardGame : BaseActivity<ActivityCardGameBinding>(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        highestScore = intent.getIntExtra("highestscore", 0)
 
 
         var darkMode = intent.getBooleanExtra("boolean", false)

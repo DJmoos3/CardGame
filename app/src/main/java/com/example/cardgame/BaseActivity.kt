@@ -1,20 +1,13 @@
 package com.example.cardgame
 
+import android.content.pm.ActivityInfo
 import android.graphics.Color
-import android.media.Image
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.view.View
-import android.widget.Button
 import android.widget.FrameLayout
-import android.widget.ImageView
 import android.widget.Switch
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isInvisible
 import androidx.viewbinding.ViewBinding
-import com.example.cardgame.databinding.ActivityMainBinding
-import java.math.RoundingMode
 
 abstract class BaseActivity <VB: ViewBinding> : AppCompatActivity() {
 
@@ -41,9 +34,11 @@ abstract class BaseActivity <VB: ViewBinding> : AppCompatActivity() {
 
 
 */
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = inflateBinding()
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
         setContentView(binding.root)
 
     }
@@ -64,7 +59,6 @@ abstract class BaseActivity <VB: ViewBinding> : AppCompatActivity() {
             dayNight.isChecked = false
         }
     }
-
 
     /*fun initiator(higherChanceInit: TextView, lowerChanceInit: TextView, loseTextInit: TextView,
                   inARowTextInit : TextView, cardFrontInit : ImageView, cardBackInit : ImageView,
